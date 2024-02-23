@@ -1,6 +1,8 @@
 class CHIP8:
     def __init__(self):
         # setting up the properties of the cpu
+        self.vx = 0
+        self.vy = 0
         self.DISPLAY = [0]*64*32
         self.MEMORY = [0]*4096
         self.REGISTERS = [0]*16
@@ -56,10 +58,22 @@ class CHIP8:
                 self.MEMORY[0x200 + i] = byte
         return True
 
-    def loop(DISPLAY, MEMORY, REGISTERS, KEY, STACK, SOUND_TIMER, DELAY_TIMER, INDEX_REGISTER, STACK_POINTER, OPCODE, PC_COUNTER, FONTSET):
-        OPCODE = MEMORY[PC_COUNTER] << 8 | MEMORY[PC_COUNTER + 1] #fetching the opcode
+    def fetch_opcode(self):
+        self.opcode = self.MEMORY[self.PC_COUNTER] << 8 | self.MEMORY[self.PC_COUNTER + 1]
+        return self.opcode
 
-        PC_COUNTER += 2  #incrementing the program counter
+    def execute_opcode(self, opcode):
+        #bitwise operations to decode the opcodes
+        self.vx = (self.opcode & 0x0F00) >> 8
+        self.vy = (self.opcode & 0x00F0) >> 4
+
+        #clear screen
+        if (self.opcode & 0xF000 == 0x0000):
+            if (self.opcode == 0x00E0):
+                self.DISPLAY = [0]*64*32
+                self.draw = True
+
+    def emulate(self):
 
         if DELAY_TIMER > 0:
             DELAY_TIMER -= 1
