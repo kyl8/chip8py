@@ -1,6 +1,8 @@
 import pygame
 import cpu
 
+
+#TO-DO configure keyboard and sound
 pygame.init()
 screen = pygame.display.set_mode((64*10, 32*10))
 clock = pygame.time.Clock()
