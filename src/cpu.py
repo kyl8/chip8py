@@ -62,6 +62,7 @@ class CHIP8:
         self.opcode = self.MEMORY[self.PC_COUNTER] << 8 | self.MEMORY[self.PC_COUNTER + 1]
         return self.opcode
 
+    #TO-DO write the rest of opcodes
     def execute_opcode(self, opcode):
         #bitwise operations to decode the opcodes
         self.vx = (self.opcode & 0x0F00) >> 8
@@ -73,6 +74,7 @@ class CHIP8:
                 self.DISPLAY = [0]*64*32
                 self.draw = True
 
+    
     def emulate(self):
 
         if DELAY_TIMER > 0:
